@@ -1,0 +1,40 @@
+{
+  "name": "bridgeworld-lol",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "integrate:covenant": "node scripts/integrate-covenant.js",
+    "deploy:cloudflare": "npm run build && wrangler pages deploy .next --project-name=bridgeworld-lol",
+    "deploy:lore": "node scripts/deploy-lore.js",
+    "deploy:replit": "node scripts/replit-bot.js",
+    "deploy:all": "npm run integrate:covenant && npm run deploy:lore",
+    "deploy:bots": "node scripts/deploy-all-bots.js",
+    "telegram:deploy": "node scripts/telegram-bot-deploy.js",
+    "telegram:deploy-all": "node scripts/telegram-bot-deploy.js /deploy-all",
+    "check:status": "node scripts/check-all-status.js"
+  },
+  "dependencies": {
+    "@metamask/sdk": "^0.34.0",
+    "@metamask/sdk-react": "^0.33.1",
+    "ethers": "^6.15.0",
+    "next": "^16.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "^14.2.0",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
+  }
+}
