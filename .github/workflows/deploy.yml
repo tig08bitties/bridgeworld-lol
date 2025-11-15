@@ -32,6 +32,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: bridgeworld-lol
+          projectName: bridgeworld
           directory: .next
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: "4.47.0"

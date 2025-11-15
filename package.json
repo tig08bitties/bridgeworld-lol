@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "integrate:covenant": "node scripts/integrate-covenant.js",
-    "deploy:cloudflare": "npm run build && wrangler pages deploy .next --project-name=bridgeworld-lol",
+    "deploy:cloudflare": "npm run build && wrangler pages deploy .next --project-name=bridgeworld",
     "deploy:lore": "node scripts/deploy-lore.js",
     "deploy:replit": "node scripts/replit-bot.js",
     "deploy:all": "npm run integrate:covenant && npm run deploy:lore",
