@@ -7,8 +7,7 @@
 import { COVENANT_PAYMENT_CONFIG } from './covenant-x402-config';
 import { COVENANT_DATA } from '@/lib/covenant-data';
 
-// TODO: Import x402-fetch when installed
-// import { x402Fetch } from 'x402-fetch';
+import { x402Fetch } from 'x402-fetch';
 
 /**
  * Fetch oracle query with payment
@@ -26,13 +25,10 @@ export async function fetchOracleQuery(
   if (guardianPath) params.set('guardianPath', guardianPath.toString());
   if (guardianAddress) params.set('guardianAddress', guardianAddress);
 
-  // TODO: Use x402Fetch when installed
-  // const response = await x402Fetch(`/api/oracle/query?${params}`, {
-  //   account,
-  // });
-
-  // Temporary: Regular fetch (will be replaced with x402Fetch)
-  const response = await fetch(`/api/oracle/query?${params}`);
+  // x402 payment-protected fetch - payments go to covenant address
+  const response = await x402Fetch(`/api/oracle/query?${params}`, {
+    account,
+  });
   return response.json();
 }
 
@@ -51,13 +47,10 @@ export async function fetchCovenantData(
   const params = new URLSearchParams({ type });
   if (guardianPath) params.set('guardianPath', guardianPath.toString());
 
-  // TODO: Use x402Fetch when installed
-  // const response = await x402Fetch(`/api/covenant/data?${params}`, {
-  //   account,
-  // });
-
-  // Temporary: Regular fetch
-  const response = await fetch(`/api/covenant/data?${params}`);
+  // x402 payment-protected fetch - payments go to covenant address
+  const response = await x402Fetch(`/api/covenant/data?${params}`, {
+    account,
+  });
   return response.json();
 }
 

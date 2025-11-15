@@ -7,8 +7,7 @@
 import { COVENANT_DATA } from '@/lib/covenant-data';
 import type { Guardian } from '@/lib/covenant-data';
 
-// TODO: Import AI Frens SDK when installed
-// import { AIFrensClient } from '@treasure_project/aifrens-sdk';
+import { AIFrensClient } from '@treasure_project/aifrens-sdk';
 
 /**
  * AI Agent configuration based on covenant guardians
@@ -104,12 +103,12 @@ Provide optimal strategy using these multipliers.`;
  * AI Frens client wrapper (to be implemented when SDK is installed)
  */
 export class CovenantAIClient {
-  // TODO: Initialize AIFrensClient when SDK is installed
-  // private client: AIFrensClient;
+  private client: AIFrensClient;
 
-  constructor(account: { address: string }) {
-    // TODO: Initialize with account
-    // this.client = new AIFrensClient(account);
+  constructor(account: { address: string } | any) {
+    // Initialize AI Frens client with account
+    // Note: AIFrensClient expects a viem account, may need adapter
+    this.client = new AIFrensClient(account);
   }
 
   /**
@@ -122,15 +121,18 @@ export class CovenantAIClient {
     const agentId = getGuardianAgentId(guardianPath);
     const context = getGuardianAIContext(guardianPath);
 
-    // TODO: Use AIFrensClient when installed
-    // const result = await this.client.chat({
-    //   agentId,
-    //   message: `${context}\n\n${message}`,
-    // });
+    // Use AI Frens SDK - payments handled automatically via x402
+    const result = await this.client.chat({
+      agentId,
+      message: `${context}\n\n${message}`,
+    });
 
-    // Temporary mock response
+    if (result.response.error) {
+      return { response: '', error: result.response.error };
+    }
+
     return {
-      response: `[AI Response for ${agentId}]\n\nContext: ${context}\n\nMessage: ${message}\n\n[AI Frens SDK integration pending]`,
+      response: result.response.response || 'No response from AI',
     };
   }
 
@@ -143,9 +145,17 @@ export class CovenantAIClient {
   ): Promise<{ response: string; error?: string }> {
     const prompt = createQuestHelpPrompt(questId, guardianPath);
 
-    // TODO: Use AIFrensClient when installed
+    const result = await this.client.chat({
+      agentId: 'bridgeworld-quest-helper',
+      message: prompt,
+    });
+
+    if (result.response.error) {
+      return { response: '', error: result.response.error };
+    }
+
     return {
-      response: `[Quest Help for ${questId}]\n\n${prompt}\n\n[AI Frens SDK integration pending]`,
+      response: result.response.response || 'No response from AI',
     };
   }
 
@@ -158,9 +168,17 @@ export class CovenantAIClient {
   ): Promise<{ response: string; error?: string }> {
     const prompt = createLegionStrategyPrompt(legionId, guardianPath);
 
-    // TODO: Use AIFrensClient when installed
+    const result = await this.client.chat({
+      agentId: 'bridgeworld-strategy-advisor',
+      message: prompt,
+    });
+
+    if (result.response.error) {
+      return { response: '', error: result.response.error };
+    }
+
     return {
-      response: `[Strategy for Legion ${legionId}]\n\n${prompt}\n\n[AI Frens SDK integration pending]`,
+      response: result.response.response || 'No response from AI',
     };
   }
 }

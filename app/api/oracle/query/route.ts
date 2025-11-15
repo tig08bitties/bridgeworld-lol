@@ -7,10 +7,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { COVENANT_DATA } from '@/lib/covenant-data';
 import { COVENANT_PAYMENT_CONFIG } from '@/lib/payments/covenant-x402-config';
-
-// TODO: Import x402-next when installed
-// import { paymentMiddleware } from 'x402-next';
-// import { auto } from '@swader/x402facilitators';
+import { paymentMiddleware } from 'x402-next';
+import { auto } from '@swader/x402facilitators';
 
 /**
  * Oracle Query Handler
@@ -22,13 +20,12 @@ export async function GET(request: NextRequest) {
     const guardianPath = searchParams.get('guardianPath');
     const guardianAddress = searchParams.get('guardianAddress');
 
-    // TODO: Add x402 payment middleware
-    // This endpoint should be payment-protected
-    // const handler = paymentMiddleware(
-    //   COVENANT_PAYMENT_CONFIG.primaryRecipient,
-    //   { '/api/oracle/query': COVENANT_PAYMENT_CONFIG.resources['/api/oracle/query'] },
-    //   auto
-    // );
+    // x402 payment middleware - payments go to covenant address
+    const handler = paymentMiddleware(
+      COVENANT_PAYMENT_CONFIG.primaryRecipient,
+      { '/api/oracle/query': COVENANT_PAYMENT_CONFIG.resources['/api/oracle/query'] },
+      auto
+    );
 
     // Oracle contract information
     const oracleInfo = {

@@ -7,10 +7,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { COVENANT_DATA } from '@/lib/covenant-data';
 import { COVENANT_PAYMENT_CONFIG } from '@/lib/payments/covenant-x402-config';
-
-// TODO: Import x402-next when installed
-// import { paymentMiddleware } from 'x402-next';
-// import { auto } from '@swader/x402facilitators';
+import { paymentMiddleware } from 'x402-next';
+import { auto } from '@swader/x402facilitators';
 
 /**
  * Covenant Data Handler
@@ -22,12 +20,12 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type'); // 'constants', 'guardians', 'addresses', 'oracle', 'all'
     const guardianPath = searchParams.get('guardianPath');
 
-    // TODO: Add x402 payment middleware
-    // const handler = paymentMiddleware(
-    //   COVENANT_PAYMENT_CONFIG.primaryRecipient,
-    //   { '/api/covenant/data': COVENANT_PAYMENT_CONFIG.resources['/api/covenant'] },
-    //   auto
-    // );
+    // x402 payment middleware - payments go to covenant address
+    const handler = paymentMiddleware(
+      COVENANT_PAYMENT_CONFIG.primaryRecipient,
+      { '/api/covenant/data': COVENANT_PAYMENT_CONFIG.resources['/api/covenant'] },
+      auto
+    );
 
     // Return data based on type
     switch (type) {

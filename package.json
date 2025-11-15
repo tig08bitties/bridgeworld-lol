@@ -18,6 +18,8 @@
     "check:status": "node scripts/check-all-status.js"
   },
   "dependencies": {
+    "@hyperlane-xyz/core": "^10.0.3",
+    "@hyperlane-xyz/sdk": "^19.9.0",
     "@metamask/sdk": "^0.34.0",
     "@metamask/sdk-react": "^0.33.1",
     "@tanstack/react-query": "^5.83.0",
@@ -39,6 +41,7 @@
   "devDependencies": {
     "eslint": "^8",
     "eslint-config-next": "^14.2.0",
+    "ignore-loader": "^0.1.2",
     "ts-node": "^10.9.2"
   }
 }
