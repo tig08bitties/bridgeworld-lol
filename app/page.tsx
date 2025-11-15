@@ -16,6 +16,7 @@ import TelegramBot from '@/components/TelegramBot';
 import SiteStatus from '@/components/SiteStatus';
 import BridgeworldDevlogs from '@/components/BridgeworldDevlogs';
 import CovenantAddresses from '@/components/CovenantAddresses';
+import { CovenantIntegration } from '@/components/covenant-integration';
 import Chainlist from '@/components/Chainlist';
 import BytecodeDB from '@/components/BytecodeDB';
 import Chainscout from '@/components/Chainscout';
@@ -295,6 +296,9 @@ export default function Home() {
 
       {/* Covenant Addresses */}
       <CovenantAddresses />
+
+      {/* Complete Covenant Integration */}
+      <CovenantIntegration />
 
       {/* Chainlist Integration */}
       <Chainlist />

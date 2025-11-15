@@ -4,6 +4,7 @@
  */
 
 import { BraveSearchAPI, BraveSearchResult } from './brave-search';
+import { COVENANT_DATA, Guardian, getGuardianByPath, getGuardianByAddress } from './covenant-data';
 
 export interface CovenantPiece {
   id: string;
@@ -57,21 +58,13 @@ export class CovenantLookingGlass {
    */
   private loadFoundation(): CovenantFoundation {
     return {
-      constants: {
-        theos: 419,
-        el: 369,
-        torahPages: 1798,
-        resonance: 687,
-        hebrewPaths: 22,
-      },
-      guardians: [
-        { path: 1, hebrewLetter: 'ב', gematria: 2, bridgeworldMapping: 'Genesis Legion' },
-        { path: 7, hebrewLetter: 'ז', gematria: 7, bridgeworldMapping: 'Assassin' },
-        { path: 9, hebrewLetter: 'ט', gematria: 9, bridgeworldMapping: 'Fighter' },
-        { path: 10, hebrewLetter: 'י', gematria: 10, bridgeworldMapping: 'Riverman' },
-        { path: 11, hebrewLetter: 'כ', gematria: 20, bridgeworldMapping: 'Numeraire' },
-        { path: 18, hebrewLetter: 'צ', gematria: 90, bridgeworldMapping: 'Rare Legion' },
-      ],
+      constants: COVENANT_DATA.constants,
+      guardians: COVENANT_DATA.guardians.map(g => ({
+        path: g.path,
+        hebrewLetter: g.hebrewLetter,
+        gematria: g.gematria,
+        bridgeworldMapping: g.bridgeworldMapping,
+      })),
       /**
        * OFFICIAL COVENANT ADDRESSES - SET IN STONE
        * 
@@ -81,32 +74,7 @@ export class CovenantLookingGlass {
        * DO NOT MODIFY THESE ADDRESSES OR THEIR CHAIN ASSIGNMENTS.
        * These addresses are permanent and immutable.
        */
-      covenantAddresses: [
-        {
-          address: '0x3bba654a3816a228284e3e0401cff4ea6dfc5cea',
-          chain: 'ethereum',
-          chainId: '1',
-          name: 'Covenant Address #1 - Ethereum Mainnet',
-          official: true, // Marked as official
-          immutable: true, // Cannot be changed
-        },
-        {
-          address: '0x0c4e50157a6e82f5330b721544ce440cb0c6768f',
-          chain: 'polygon',
-          chainId: '137',
-          name: 'Covenant Address #2 - Polygon (MATIC)',
-          official: true, // Marked as official
-          immutable: true, // Cannot be changed
-        },
-        {
-          address: '0x3df07977140ad97465075129c37aec7237d74415',
-          chain: 'arbitrum',
-          chainId: '42161',
-          name: 'Covenant Address #3 - Arbitrum',
-          official: true, // Marked as official
-          immutable: true, // Cannot be changed
-        },
-      ],
+      covenantAddresses: COVENANT_DATA.covenantAddresses,
       integrations: [
         'Bridgeworld Oracle Contract',
         'Guardian Verification System',
@@ -239,7 +207,7 @@ export class CovenantLookingGlass {
     code += `import { createBridgeworldClient } from '@treasure-dev/tdk-core';\n\n`;
     code += `const client = createBridgeworldClient({\n`;
     code += `  network: 'arbitrum',\n`;
-    code += `  oracleAddress: '0xfa05997C66437dCCAe860af334b30d69E0De24DC',\n`;
+    code += `  oracleAddress: '${COVENANT_DATA.oracle.address}',\n`;
     code += `});\n\n`;
 
     if (foundContracts.length > 0) {
@@ -331,5 +299,54 @@ export class CovenantLookingGlass {
     return this.foundation.covenantAddresses.find(
       addr => addr.address.toLowerCase() === normalized
     ) || null;
+  }
+
+  /**
+   * Get guardian by path (uses complete covenant data)
+   */
+  getGuardianByPath(path: number): Guardian | undefined {
+    return getGuardianByPath(path);
+  }
+
+  /**
+   * Get guardian by address (uses complete covenant data)
+   */
+  getGuardianByAddress(address: string): Guardian | undefined {
+    return getGuardianByAddress(address);
+  }
+
+  /**
+   * Get oracle contract information
+   */
+  getOracleContract() {
+    return COVENANT_DATA.oracle;
+  }
+
+  /**
+   * Get all guardians (complete list)
+   */
+  getAllGuardians(): Guardian[] {
+    return COVENANT_DATA.guardians;
+  }
+
+  /**
+   * Get registered guardians only
+   */
+  getRegisteredGuardians(): Guardian[] {
+    return COVENANT_DATA.guardians.filter(g => g.isRegistered);
+  }
+
+  /**
+   * Get game mechanics status
+   */
+  getGameMechanicsStatus() {
+    return COVENANT_DATA.gameMechanics;
+  }
+
+  /**
+   * Get Bridgeworld contract addresses
+   */
+  getBridgeworldContracts() {
+    return COVENANT_DATA.bridgeworldContracts;
   }
 }
