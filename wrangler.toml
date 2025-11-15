@@ -1,14 +1,10 @@
 name = "bridgeworld"
 compatibility_date = "2024-01-01"
 pages_build_output_dir = ".next"
-account_id = "7e40a8af4a6129833c1cb6f5bcbfd662"
-zone_id = "abdd28bf1af7e0d6d479c6ef016a05b8"
 
 [env.production]
 name = "bridgeworld"
 compatibility_date = "2024-01-01"
-account_id = "7e40a8af4a6129833c1cb6f5bcbfd662"
-zone_id = "abdd28bf1af7e0d6d479c6ef016a05b8"
 
 [env.production.vars]
 NODE_ENV = "production"
