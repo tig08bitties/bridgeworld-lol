@@ -8,6 +8,8 @@ import { NextRequest, NextResponse } from 'next/server';
  * Documentation: https://docs.tenderly.co/node/integrations-chain-interaction/ethers
  */
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
